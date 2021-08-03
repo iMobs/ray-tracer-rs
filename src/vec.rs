@@ -205,7 +205,7 @@ mod tests {
     #[test]
     fn vec3_format_color() {
         let vec3 = Vec3::new(0.1, 0.2, 0.3);
-        assert_eq!(vec3.format_color(1), "25 51 76");
+        assert_eq!(vec3.format_color(2), "12 25 38");
     }
 
     #[test]
