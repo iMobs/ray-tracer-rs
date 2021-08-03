@@ -1,6 +1,7 @@
-mod vec3;
+mod ray;
+mod vec;
 
-use vec3::Color;
+use vec::Color;
 
 fn main() {
     const IMAGE_WIDTH: u64 = 256;
