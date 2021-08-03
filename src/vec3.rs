@@ -28,7 +28,7 @@ impl Vec3 {
     }
 
     pub fn dot(self, other: Vec3) -> f64 {
-        self[0] * other[0] + self[1] * other[1] + self[2] * other[2]
+        self.x() * other.x() + self.y() * other.y() + self.z() * other.z()
     }
 
     pub fn length(self) -> f64 {
@@ -36,13 +36,11 @@ impl Vec3 {
     }
 
     pub fn cross(self, other: Vec3) -> Vec3 {
-        Vec3 {
-            e: [
-                self[1] * other[2] - self[2] * other[1],
-                self[2] * other[0] - self[0] * other[2],
-                self[0] * other[1] - self[1] * other[0],
-            ],
-        }
+        Vec3::new(
+            self.y() * other.z() - self.z() * other.y(),
+            self.z() * other.x() - self.x() * other.z(),
+            self.x() * other.y() - self.y() * other.x(),
+        )
     }
 
     pub fn normalized(self) -> Vec3 {
@@ -52,16 +50,16 @@ impl Vec3 {
     pub fn format_color(self) -> String {
         format!(
             "{} {} {}",
-            (255.999 * self[0]) as u64,
-            (255.999 * self[1]) as u64,
-            (255.999 * self[2]) as u64
+            (255.999 * self.x()) as u64,
+            (255.999 * self.y()) as u64,
+            (255.999 * self.z()) as u64
         )
     }
 }
 
 impl Display for Vec3 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({} {} {})", self[0], self[1], self[2])
+        write!(f, "({} {} {})", self.x(), self.y(), self.z())
     }
 }
 
@@ -83,17 +81,21 @@ impl Add for Vec3 {
     type Output = Vec3;
 
     fn add(self, other: Vec3) -> Vec3 {
-        Vec3 {
-            e: [self[0] + other[0], self[1] + other[1], self[2] + other[2]],
-        }
+        Vec3::new(
+            self.x() + other.x(),
+            self.y() + other.y(),
+            self.z() + other.z(),
+        )
     }
 }
 
 impl AddAssign for Vec3 {
     fn add_assign(&mut self, other: Vec3) {
-        *self = Vec3 {
-            e: [self[0] + other[0], self[1] + other[1], self[2] + other[2]],
-        }
+        *self = Vec3::new(
+            self.x() + other.x(),
+            self.y() + other.y(),
+            self.z() + other.z(),
+        )
     }
 }
 
@@ -101,17 +103,21 @@ impl Sub for Vec3 {
     type Output = Vec3;
 
     fn sub(self, other: Vec3) -> Vec3 {
-        Vec3 {
-            e: [self[0] - other[0], self[1] - other[1], self[2] - other[2]],
-        }
+        Vec3::new(
+            self.x() - other.x(),
+            self.y() - other.y(),
+            self.z() - other.z(),
+        )
     }
 }
 
 impl SubAssign for Vec3 {
     fn sub_assign(&mut self, other: Vec3) {
-        *self = Vec3 {
-            e: [self[0] - other[0], self[1] - other[1], self[2] - other[2]],
-        }
+        *self = Vec3::new(
+            self.x() - other.x(),
+            self.y() - other.y(),
+            self.z() - other.z(),
+        )
     }
 }
 
@@ -119,17 +125,13 @@ impl Mul<f64> for Vec3 {
     type Output = Vec3;
 
     fn mul(self, other: f64) -> Vec3 {
-        Vec3 {
-            e: [self[0] * other, self[1] * other, self[2] * other],
-        }
+        Vec3::new(self.x() * other, self.y() * other, self.z() * other)
     }
 }
 
 impl MulAssign<f64> for Vec3 {
     fn mul_assign(&mut self, other: f64) {
-        *self = Vec3 {
-            e: [self[0] * other, self[1] * other, self[2] * other],
-        }
+        *self = Vec3::new(self.x() * other, self.y() * other, self.z() * other)
     }
 }
 
@@ -137,9 +139,11 @@ impl Mul<Vec3> for Vec3 {
     type Output = Vec3;
 
     fn mul(self, other: Vec3) -> Vec3 {
-        Vec3 {
-            e: [self[0] * other[0], self[1] * other[1], self[2] * other[2]],
-        }
+        Vec3::new(
+            self.x() * other.x(),
+            self.y() * other.y(),
+            self.z() * other.z(),
+        )
     }
 }
 
@@ -147,17 +151,13 @@ impl Div<f64> for Vec3 {
     type Output = Vec3;
 
     fn div(self, other: f64) -> Vec3 {
-        Vec3 {
-            e: [self[0] / other, self[1] / other, self[2] / other],
-        }
+        Vec3::new(self.x() / other, self.y() / other, self.z() / other)
     }
 }
 
 impl DivAssign<f64> for Vec3 {
     fn div_assign(&mut self, other: f64) {
-        *self = Vec3 {
-            e: [self[0] / other, self[1] / other, self[2] / other],
-        }
+        *self = Vec3::new(self.x() / other, self.y() / other, self.z() / other)
     }
 }
 
