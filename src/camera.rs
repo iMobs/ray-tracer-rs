@@ -23,9 +23,9 @@ impl Camera {
 
         Camera {
             origin,
+            lower_left_corner,
             horizontal,
             vertical,
-            lower_left_corner,
         }
     }
 
