@@ -28,7 +28,7 @@ impl Vec3 {
     }
 
     pub fn dot(self, other: Vec3) -> f64 {
-        self.x() * other.x() + self.y() * other.y() + self.z() * other.z()
+        self[0] * other[0] + self[1] * other[1] + self[2] * other[2]
     }
 
     pub fn length(self) -> f64 {
@@ -37,9 +37,9 @@ impl Vec3 {
 
     pub fn cross(self, other: Vec3) -> Vec3 {
         Vec3::new(
-            self.y() * other.z() - self.z() * other.y(),
-            self.z() * other.x() - self.x() * other.z(),
-            self.x() * other.y() - self.y() * other.x(),
+            self[1] * other[2] - self[2] * other[1],
+            self[2] * other[0] - self[0] * other[2],
+            self[0] * other[1] - self[1] * other[0],
         )
     }
 
@@ -47,13 +47,12 @@ impl Vec3 {
         self / self.length()
     }
 
-    pub fn format_color(self) -> String {
-        format!(
-            "{} {} {}",
-            (255.999 * self.x()) as u64,
-            (255.999 * self.y()) as u64,
-            (255.999 * self.z()) as u64
-        )
+    pub fn format_color(self, samples_per_pixel: u64) -> String {
+        let ir = (256.0 * (self[0] / (samples_per_pixel as f64)).clamp(0.0, 0.999)) as u64;
+        let ig = (256.0 * (self[1] / (samples_per_pixel as f64)).clamp(0.0, 0.999)) as u64;
+        let ib = (256.0 * (self[2] / (samples_per_pixel as f64)).clamp(0.0, 0.999)) as u64;
+
+        format!("{} {} {}", ir, ig, ib,)
     }
 }
 
@@ -81,21 +80,13 @@ impl Add for Vec3 {
     type Output = Vec3;
 
     fn add(self, other: Vec3) -> Vec3 {
-        Vec3::new(
-            self.x() + other.x(),
-            self.y() + other.y(),
-            self.z() + other.z(),
-        )
+        Vec3::new(self[0] + other[0], self[1] + other[1], self[2] + other[2])
     }
 }
 
 impl AddAssign for Vec3 {
     fn add_assign(&mut self, other: Vec3) {
-        *self = Vec3::new(
-            self.x() + other.x(),
-            self.y() + other.y(),
-            self.z() + other.z(),
-        )
+        *self = Vec3::new(self[0] + other[0], self[1] + other[1], self[2] + other[2])
     }
 }
 
@@ -103,21 +94,13 @@ impl Sub for Vec3 {
     type Output = Vec3;
 
     fn sub(self, other: Vec3) -> Vec3 {
-        Vec3::new(
-            self.x() - other.x(),
-            self.y() - other.y(),
-            self.z() - other.z(),
-        )
+        Vec3::new(self[0] - other[0], self[1] - other[1], self[2] - other[2])
     }
 }
 
 impl SubAssign for Vec3 {
     fn sub_assign(&mut self, other: Vec3) {
-        *self = Vec3::new(
-            self.x() - other.x(),
-            self.y() - other.y(),
-            self.z() - other.z(),
-        )
+        *self = Vec3::new(self[0] - other[0], self[1] - other[1], self[2] - other[2])
     }
 }
 
@@ -125,13 +108,13 @@ impl Mul<f64> for Vec3 {
     type Output = Vec3;
 
     fn mul(self, other: f64) -> Vec3 {
-        Vec3::new(self.x() * other, self.y() * other, self.z() * other)
+        Vec3::new(self[0] * other, self[1] * other, self[2] * other)
     }
 }
 
 impl MulAssign<f64> for Vec3 {
     fn mul_assign(&mut self, other: f64) {
-        *self = Vec3::new(self.x() * other, self.y() * other, self.z() * other)
+        *self = Vec3::new(self[0] * other, self[1] * other, self[2] * other)
     }
 }
 
@@ -139,7 +122,7 @@ impl Mul<Vec3> for f64 {
     type Output = Vec3;
 
     fn mul(self, other: Vec3) -> Vec3 {
-        Vec3::new(self * other.x(), self * other.y(), self * other.z())
+        Vec3::new(self * other[0], self * other[1], self * other[2])
     }
 }
 
@@ -147,13 +130,13 @@ impl Div<f64> for Vec3 {
     type Output = Vec3;
 
     fn div(self, other: f64) -> Vec3 {
-        Vec3::new(self.x() / other, self.y() / other, self.z() / other)
+        Vec3::new(self[0] / other, self[1] / other, self[2] / other)
     }
 }
 
 impl DivAssign<f64> for Vec3 {
     fn div_assign(&mut self, other: f64) {
-        *self = Vec3::new(self.x() / other, self.y() / other, self.z() / other)
+        *self = Vec3::new(self[0] / other, self[1] / other, self[2] / other)
     }
 }
 
@@ -222,7 +205,7 @@ mod tests {
     #[test]
     fn vec3_format_color() {
         let vec3 = Vec3::new(0.1, 0.2, 0.3);
-        assert_eq!(vec3.format_color(), "25 51 76");
+        assert_eq!(vec3.format_color(1), "25 51 76");
     }
 
     #[test]
