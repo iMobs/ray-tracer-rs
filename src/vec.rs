@@ -135,15 +135,11 @@ impl MulAssign<f64> for Vec3 {
     }
 }
 
-impl Mul<Vec3> for Vec3 {
+impl Mul<Vec3> for f64 {
     type Output = Vec3;
 
     fn mul(self, other: Vec3) -> Vec3 {
-        Vec3::new(
-            self.x() * other.x(),
-            self.y() * other.y(),
-            self.z() * other.z(),
-        )
+        Vec3::new(self * other.x(), self * other.y(), self * other.z())
     }
 }
 
@@ -275,9 +271,9 @@ mod tests {
     }
 
     #[test]
-    fn vec3_mul_other() {
-        let vec3 = Vec3::new(1.0, 2.0, 3.0);
-        assert_eq!(vec3 * vec3, Vec3::new(1.0, 4.0, 9.0));
+    fn vec3_mul_reverse() {
+        let vec3 = Vec3::new(0.1, 0.2, 0.3);
+        assert_eq!(2.0 * vec3, Vec3::new(0.2, 0.4, 0.6));
     }
 
     #[test]

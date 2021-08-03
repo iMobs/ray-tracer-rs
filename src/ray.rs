@@ -7,20 +7,23 @@ pub struct Ray {
 }
 
 impl Ray {
-    pub fn new(orig: Point3, dir: Vec3) -> Ray {
-        Ray { orig, dir }
+    pub fn new(origin: Point3, direction: Vec3) -> Ray {
+        Ray {
+            orig: origin,
+            dir: direction,
+        }
     }
 
-    pub fn orig(&self) -> Point3 {
+    pub fn origin(&self) -> Point3 {
         self.orig
     }
 
-    pub fn dir(&self) -> Vec3 {
+    pub fn direction(&self) -> Vec3 {
         self.dir
     }
 
     pub fn at(&self, t: f64) -> Point3 {
-        self.orig + self.dir * t
+        self.orig + t * self.dir
     }
 }
 
@@ -43,7 +46,7 @@ mod tests {
         let dir = Vec3::new(0.1, 0.2, 0.3);
         let ray = Ray::new(orig, dir);
 
-        assert_eq!(ray.orig(), orig)
+        assert_eq!(ray.origin(), orig)
     }
 
     #[test]
@@ -52,7 +55,7 @@ mod tests {
         let dir = Vec3::new(0.1, 0.2, 0.3);
         let ray = Ray::new(orig, dir);
 
-        assert_eq!(ray.dir(), dir)
+        assert_eq!(ray.direction(), dir)
     }
 
     #[test]
