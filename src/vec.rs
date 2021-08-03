@@ -1,6 +1,9 @@
+use rand::Rng;
 use std::fmt;
 use std::fmt::Display;
-use std::ops::{Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Sub, SubAssign};
+use std::ops::{
+    Add, AddAssign, Div, DivAssign, Index, IndexMut, Mul, MulAssign, Range, Sub, SubAssign,
+};
 
 #[derive(Debug, PartialEq, Clone, Copy)]
 pub struct Vec3 {
@@ -13,6 +16,35 @@ pub type Color = Vec3;
 impl Vec3 {
     pub fn new(e0: f64, e1: f64, e2: f64) -> Vec3 {
         Vec3 { e: [e0, e1, e2] }
+    }
+
+    pub fn random(r: Range<f64>) -> Vec3 {
+        let mut rng = rand::thread_rng();
+        Vec3 {
+            e: [
+                rng.gen_range(r.clone()),
+                rng.gen_range(r.clone()),
+                rng.gen_range(r.clone()),
+            ],
+        }
+    }
+
+    pub fn random_in_unit_sphere() -> Vec3 {
+        loop {
+            let v = Vec3::random(-1.0..1.0);
+            if v.length() < 1.0 {
+                return v;
+            }
+        }
+    }
+
+    pub fn random_in_hemisphere(normal: Vec3) -> Vec3 {
+        let in_unit_sphere = Vec3::random_in_unit_sphere();
+        if in_unit_sphere.dot(normal) > 0.0 {
+            in_unit_sphere
+        } else {
+            (-1.0) * in_unit_sphere
+        }
     }
 
     pub fn x(self) -> f64 {
@@ -48,9 +80,18 @@ impl Vec3 {
     }
 
     pub fn format_color(self, samples_per_pixel: u64) -> String {
-        let ir = (256.0 * (self[0] / (samples_per_pixel as f64)).clamp(0.0, 0.999)) as u64;
-        let ig = (256.0 * (self[1] / (samples_per_pixel as f64)).clamp(0.0, 0.999)) as u64;
-        let ib = (256.0 * (self[2] / (samples_per_pixel as f64)).clamp(0.0, 0.999)) as u64;
+        let ir = (256.0
+            * (self[0] / (samples_per_pixel as f64))
+                .sqrt()
+                .clamp(0.0, 0.999)) as u64;
+        let ig = (256.0
+            * (self[1] / (samples_per_pixel as f64))
+                .sqrt()
+                .clamp(0.0, 0.999)) as u64;
+        let ib = (256.0
+            * (self[2] / (samples_per_pixel as f64))
+                .sqrt()
+                .clamp(0.0, 0.999)) as u64;
 
         format!("{} {} {}", ir, ig, ib,)
     }
