@@ -54,17 +54,17 @@ impl Scatter for Metal {
     }
 }
 
-pub struct Dialectric {
+pub struct Dielectric {
     ir: f64,
 }
 
-impl Dialectric {
-    pub fn new(ir: f64) -> Dialectric {
-        Dialectric { ir }
+impl Dielectric {
+    pub fn new(ir: f64) -> Dielectric {
+        Dielectric { ir }
     }
 }
 
-impl Scatter for Dialectric {
+impl Scatter for Dielectric {
     fn scatter(&self, r_in: &Ray, rec: &HitRecord) -> Option<(Color, Ray)> {
         let refraction_ratio = if rec.front_face {
             1.0 / self.ir
