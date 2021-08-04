@@ -1,4 +1,4 @@
-use rand::Rng;
+use rand::prelude::*;
 use std::fmt;
 use std::fmt::Display;
 use std::ops::{
@@ -39,7 +39,7 @@ impl Vec3 {
     pub fn random_in_hemisphere(normal: Vec3) -> Vec3 {
         let in_unit_sphere = Vec3::random_in_unit_sphere();
         if in_unit_sphere.dot(normal) > 0.0 {
-            // In the same hemisphere as hte normal
+            // In the same hemisphere as the normal
             in_unit_sphere
         } else {
             (-1.0) * in_unit_sphere
@@ -51,7 +51,6 @@ impl Vec3 {
 
         loop {
             let p = Vec3::new(rng.gen_range(-1.0..1.0), rng.gen_range(-1.0..1.0), 0.0);
-
             if p.length() < 1.0 {
                 return p;
             }
@@ -126,7 +125,7 @@ impl Vec3 {
 
 impl Display for Vec3 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({} {} {})", self.x(), self.y(), self.z())
+        write!(f, "({}, {}, {})", self[0], self[1], self[2])
     }
 }
 
@@ -154,7 +153,9 @@ impl Add for Vec3 {
 
 impl AddAssign for Vec3 {
     fn add_assign(&mut self, other: Vec3) {
-        *self = Vec3::new(self[0] + other[0], self[1] + other[1], self[2] + other[2])
+        self[0] += other[0];
+        self[1] += other[1];
+        self[2] += other[2];
     }
 }
 
@@ -168,7 +169,9 @@ impl Sub for Vec3 {
 
 impl SubAssign for Vec3 {
     fn sub_assign(&mut self, other: Vec3) {
-        *self = Vec3::new(self[0] - other[0], self[1] - other[1], self[2] - other[2])
+        self[0] -= other[0];
+        self[1] -= other[1];
+        self[2] -= other[2];
     }
 }
 
@@ -182,7 +185,9 @@ impl Mul<f64> for Vec3 {
 
 impl MulAssign<f64> for Vec3 {
     fn mul_assign(&mut self, other: f64) {
-        *self = Vec3::new(self[0] * other, self[1] * other, self[2] * other)
+        self[0] *= other;
+        self[1] *= other;
+        self[2] *= other;
     }
 }
 
@@ -196,7 +201,9 @@ impl Mul<Vec3> for Vec3 {
 
 impl MulAssign<Vec3> for Vec3 {
     fn mul_assign(&mut self, other: Vec3) {
-        *self = Vec3::new(self[0] * other[0], self[1] * other[1], self[2] * other[2])
+        self[0] *= other[0];
+        self[1] *= other[1];
+        self[2] *= other[2];
     }
 }
 
@@ -218,7 +225,9 @@ impl Div<f64> for Vec3 {
 
 impl DivAssign<f64> for Vec3 {
     fn div_assign(&mut self, other: f64) {
-        *self = Vec3::new(self[0] / other, self[1] / other, self[2] / other)
+        self[0] /= other;
+        self[1] /= other;
+        self[2] /= other;
     }
 }
 
@@ -293,7 +302,7 @@ mod tests {
     #[test]
     fn vec3_display() {
         let vec3 = Vec3::new(0.1, 0.2, 0.3);
-        assert_eq!(format!("{}", vec3), "(0.1 0.2 0.3)")
+        assert_eq!(format!("{}", vec3), "(0.1, 0.2, 0.3)")
     }
 
     #[test]
