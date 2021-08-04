@@ -1,8 +1,7 @@
 use rand::Rng;
 
 use super::hit::HitRecord;
-use super::ray::Ray;
-use super::vec::{Color, Vec3};
+use common::{Color, Ray, Vec3};
 
 pub trait Scatter: Send + Sync {
     fn scatter(&self, r_in: &Ray, rec: &HitRecord) -> Option<(Color, Ray)>;

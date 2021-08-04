@@ -1,9 +1,6 @@
-mod camera;
 mod hit;
 mod material;
-mod ray;
 mod sphere;
-mod vec;
 
 use std::fs::File;
 use std::io::{BufWriter, Write};
@@ -12,12 +9,10 @@ use std::sync::Arc;
 use rand::prelude::*;
 use rayon::prelude::*;
 
-use camera::Camera;
+use common::{Camera, Color, Point3, Ray, Vec3};
 use hit::{Hit, World};
 use material::{Dielectric, Lambertian, Metal};
-use ray::Ray;
 use sphere::Sphere;
-use vec::{Color, Point3, Vec3};
 
 fn random_scene() -> World {
     let mut rng = rand::thread_rng();

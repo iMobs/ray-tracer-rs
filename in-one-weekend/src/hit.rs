@@ -1,8 +1,7 @@
 use std::sync::Arc;
 
 use super::material::Scatter;
-use super::ray::Ray;
-use super::vec::{Point3, Vec3};
+use common::{Point3, Ray, Vec3};
 
 pub struct HitRecord {
     pub p: Point3,

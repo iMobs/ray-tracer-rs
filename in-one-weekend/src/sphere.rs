@@ -2,8 +2,7 @@ use std::sync::Arc;
 
 use super::hit::{Hit, HitRecord};
 use super::material::Scatter;
-use super::ray::Ray;
-use super::vec::{Point3, Vec3};
+use common::{Point3, Ray, Vec3};
 
 pub struct Sphere {
     center: Point3,
