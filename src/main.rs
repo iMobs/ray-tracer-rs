@@ -5,6 +5,8 @@ mod ray;
 mod sphere;
 mod vec;
 
+use std::fs::File;
+use std::io::{BufWriter, Write};
 use std::sync::Arc;
 
 use rand::prelude::*;
@@ -95,7 +97,11 @@ fn ray_color(r: &Ray, world: &World, depth: u64) -> Color {
     }
 }
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // File
+    let file = File::create("image.ppm")?;
+    let mut file = BufWriter::new(file);
+
     // Image
     const ASPECT_RATIO: f64 = 3.0 / 2.0;
     const IMAGE_WIDTH: u64 = 1200;
@@ -123,13 +129,13 @@ fn main() {
         dist_to_focus,
     );
 
-    println!("P3");
+    writeln!(file, "P3")?;
 
-    println!("{} {}", IMAGE_WIDTH, IMAGE_HEIGHT);
-    println!("255");
+    writeln!(file, "{} {}", IMAGE_WIDTH, IMAGE_HEIGHT)?;
+    writeln!(file, "255")?;
 
     for j in (0..IMAGE_HEIGHT).rev() {
-        eprintln!("Scanlines remaining: {}", j);
+        println!("Scanlines remaining: {}", j);
 
         let scanline: Vec<Color> = (0..IMAGE_WIDTH)
             .into_par_iter()
@@ -152,8 +158,12 @@ fn main() {
             .collect();
 
         for pixel_color in scanline {
-            println!("{}", pixel_color.format_color(SAMPLES_PER_PIXEL));
+            writeln!(file, "{}", pixel_color.format_color(SAMPLES_PER_PIXEL))?;
         }
     }
-    eprintln!("Done!");
+
+    file.flush()?;
+    println!("Done!");
+
+    Ok(())
 }
