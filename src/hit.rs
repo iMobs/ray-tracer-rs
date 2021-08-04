@@ -23,10 +23,6 @@ impl HitRecord {
     }
 }
 
-pub trait Hit {
-    fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord>;
-}
-
 pub type World = Vec<Box<dyn Hit>>;
 
 impl Hit for World {
@@ -43,4 +39,8 @@ impl Hit for World {
 
         tmp_rec
     }
+}
+
+pub trait Hit {
+    fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord>;
 }

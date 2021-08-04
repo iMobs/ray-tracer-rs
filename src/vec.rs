@@ -82,7 +82,6 @@ impl Vec3 {
         let cos_theta = ((-1.0) * self).dot(n).min(1.0);
         let r_out_perp = etai_over_etat * (self + cos_theta * n);
         let r_out_parallel = -(1.0 - r_out_perp.length().powi(2)).abs().sqrt() * n;
-
         r_out_perp + r_out_parallel
     }
 
@@ -276,7 +275,7 @@ mod tests {
     #[test]
     fn vec3_format_color() {
         let vec3 = Vec3::new(0.1, 0.2, 0.3);
-        assert_eq!(vec3.format_color(2), "12 25 38");
+        assert_eq!(vec3.format_color(2), "57 80 99");
     }
 
     #[test]
