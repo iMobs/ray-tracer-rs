@@ -1,4 +1,4 @@
-use std::rc::Rc;
+use std::sync::Arc;
 
 use super::hit::{Hit, HitRecord};
 use super::material::Scatter;
@@ -8,11 +8,11 @@ use super::vec::{Point3, Vec3};
 pub struct Sphere {
     center: Point3,
     radius: f64,
-    material: Rc<dyn Scatter>,
+    material: Arc<dyn Scatter>,
 }
 
 impl Sphere {
-    pub fn new(center: Point3, radius: f64, material: Rc<dyn Scatter>) -> Sphere {
+    pub fn new(center: Point3, radius: f64, material: Arc<dyn Scatter>) -> Sphere {
         Sphere {
             center,
             radius,
@@ -48,7 +48,7 @@ impl Hit for Sphere {
             t: root,
             p: r.at(root),
             normal: Vec3::new(0.0, 0.0, 0.0),
-            mat: Rc::clone(&self.material),
+            mat: Arc::clone(&self.material),
             front_face: false,
         };
 
