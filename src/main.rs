@@ -141,8 +141,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .into_par_iter()
             .map(|i| {
                 let mut pixel_color = Color::new(0.0, 0.0, 0.0);
+                let mut rng = rand::thread_rng();
+
                 for _ in 0..SAMPLES_PER_PIXEL {
-                    let mut rng = rand::thread_rng();
                     let random_u: f64 = rng.gen();
                     let random_v: f64 = rng.gen();
 
