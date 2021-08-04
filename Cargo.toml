@@ -1,5 +1,6 @@
 [workspace]
 members = [
 	"common",
-	"in-one-weekend"
+	"in-one-weekend",
+	"the-next-week"
 ]
