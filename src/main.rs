@@ -131,11 +131,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     writeln!(file, "P3")?;
 
-    writeln!(file, "{} {}", IMAGE_WIDTH, IMAGE_HEIGHT)?;
+    writeln!(file, "{IMAGE_WIDTH} {IMAGE_HEIGHT}")?;
     writeln!(file, "255")?;
 
     for j in (0..IMAGE_HEIGHT).rev() {
-        println!("Scanlines remaining: {}", j);
+        println!("Scanlines remaining: {j}");
 
         let scanline: Vec<Color> = (0..IMAGE_WIDTH)
             .into_par_iter()
@@ -159,7 +159,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .collect();
 
         for pixel_color in scanline {
-            writeln!(file, "{}", pixel_color.format_color(SAMPLES_PER_PIXEL))?;
+            let color = pixel_color.format_color(SAMPLES_PER_PIXEL);
+            writeln!(file, "{color}")?;
         }
     }
 
