@@ -1,17 +1,17 @@
-use super::vec::{Point3, Vec3};
+use super::vec::Vec3;
 
 #[derive(Debug, PartialEq)]
 pub struct Ray {
-    origin: Point3,
+    origin: Vec3,
     direction: Vec3,
 }
 
 impl Ray {
-    pub fn new(origin: Point3, direction: Vec3) -> Ray {
+    pub fn new(origin: Vec3, direction: Vec3) -> Ray {
         Ray { origin, direction }
     }
 
-    pub fn origin(&self) -> Point3 {
+    pub fn origin(&self) -> Vec3 {
         self.origin
     }
 
@@ -19,7 +19,7 @@ impl Ray {
         self.direction
     }
 
-    pub fn at(&self, t: f64) -> Point3 {
+    pub fn at(&self, t: f64) -> Vec3 {
         self.origin + t * self.direction
     }
 }
@@ -30,7 +30,7 @@ mod tests {
 
     #[test]
     fn ray_new() {
-        let origin = Point3::new(0.1, 0.2, 0.3);
+        let origin = Vec3::new(0.1, 0.2, 0.3);
         let direction = Vec3::new(0.1, 0.2, 0.3);
         let ray = Ray::new(origin, direction);
 
@@ -39,7 +39,7 @@ mod tests {
 
     #[test]
     fn ray_orig() {
-        let orig = Point3::new(0.1, 0.2, 0.3);
+        let orig = Vec3::new(0.1, 0.2, 0.3);
         let dir = Vec3::new(0.1, 0.2, 0.3);
         let ray = Ray::new(orig, dir);
 
@@ -48,7 +48,7 @@ mod tests {
 
     #[test]
     fn ray_dir() {
-        let orig = Point3::new(0.1, 0.2, 0.3);
+        let orig = Vec3::new(0.1, 0.2, 0.3);
         let dir = Vec3::new(0.1, 0.2, 0.3);
         let ray = Ray::new(orig, dir);
 
@@ -57,10 +57,10 @@ mod tests {
 
     #[test]
     fn ray_at() {
-        let orig = Point3::new(0.1, 0.2, 0.3);
+        let orig = Vec3::new(0.1, 0.2, 0.3);
         let dir = Vec3::new(0.1, 0.2, 0.3);
         let ray = Ray::new(orig, dir);
 
-        assert_eq!(ray.at(1.0), Point3::new(0.2, 0.4, 0.6))
+        assert_eq!(ray.at(1.0), Vec3::new(0.2, 0.4, 0.6))
     }
 }

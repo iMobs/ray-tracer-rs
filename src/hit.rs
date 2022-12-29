@@ -2,10 +2,10 @@ use std::sync::Arc;
 
 use super::material::Scatter;
 use super::ray::Ray;
-use super::vec::{Point3, Vec3};
+use super::vec::Vec3;
 
 pub struct HitRecord {
-    pub p: Point3,
+    pub p: Vec3,
     pub normal: Vec3,
     pub mat: Arc<dyn Scatter>,
     pub t: f64,
